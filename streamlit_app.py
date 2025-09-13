@@ -42,8 +42,8 @@ if options:
         filtered_df = filtering_df.filter((col('FRUIT_NAME') == fruit_chosen) & col('SEARCH_ON').isNotNull()).select(col('SEARCH_ON'))
 
         # Collect the results
-        serach_on_fruit_nm = filtered_df.collect()
-      
+        search_on_rows = filtered_df.collect()
+        serach_on_fruit_nm = search_on_rows[0]['SEARCH_ON']
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + serach_on_fruit_nm)
         # st.text(smoothiefroot_response.json())
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
