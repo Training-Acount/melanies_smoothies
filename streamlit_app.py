@@ -18,6 +18,8 @@ cnx = st._connection("snowflake")
 session = cnx.session() #get_active_session()
 
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
+filtering_df = session.table("smoothies.public.fruit_options")
+
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
 options = st.multiselect(
@@ -36,7 +38,13 @@ if options:
     for fruit_chosen in options:
         ingredients_string += fruit_chosen + ' '
         st.subheader(fruit_chosen + ' Nutrition Information')
-        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_chosen)
+        
+        filtered_df = filtering_df.filter(col("fruit_chosen") == fruit_chosen) & col("SEARCH_ON").isNotNull()).select(col("SEARCH_ON"))
+
+        # Collect the results
+        serach_on_fruit_nm = filtered_df.collect()
+      
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + serach_on_fruit_nm)
         # st.text(smoothiefroot_response.json())
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
