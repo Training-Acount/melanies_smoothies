@@ -43,10 +43,12 @@ if options:
 
         # Collect the results
         search_on_rows = filtered_df.collect()
-        serach_on_fruit_nm = search_on_rows[0]['SEARCH_ON']
-        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + serach_on_fruit_nm)
-        # st.text(smoothiefroot_response.json())
-        sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+
+        if search_on_rows:
+          serach_on_fruit_nm = search_on_rows[0]['SEARCH_ON']
+          smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + serach_on_fruit_nm)
+          # st.text(smoothiefroot_response.json())
+          sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
     # st.write(ingredients_string)
 
