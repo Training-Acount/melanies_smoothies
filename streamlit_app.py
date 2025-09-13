@@ -39,7 +39,7 @@ if options:
         ingredients_string += fruit_chosen + ' '
         st.subheader(fruit_chosen + ' Nutrition Information')
         
-        filtered_df = filtering_df.filter(col("fruit_chosen") == fruit_chosen) & col("SEARCH_ON").isNotNull()).select(col("SEARCH_ON"))
+        filtered_df = filtering_df.filter((col("fruit_chosen") == fruit_chosen) & col("SEARCH_ON").isNotNull()).select(col("SEARCH_ON"))
 
         # Collect the results
         serach_on_fruit_nm = filtered_df.collect()
