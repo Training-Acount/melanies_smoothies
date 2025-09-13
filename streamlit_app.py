@@ -49,6 +49,9 @@ if options:
           smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + serach_on_fruit_nm)
           # st.text(smoothiefroot_response.json())
           sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+        else:
+          st.warning(f"No SEARCH_ON value found for {fruit_chosen}")
+
 
     # st.write(ingredients_string)
 
